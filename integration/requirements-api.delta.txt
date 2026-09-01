@@ -1,0 +1,10 @@
+# Add compatible versions to the existing requirements/api.txt.
+# Resolve against the target lock/constraints file; do not blindly replace versions.
+av>=14,<17
+fastapi>=0.115,<1
+httpx>=0.27,<1
+pydantic>=2.10,<3
+python-multipart>=0.0.20,<1
+
+# Only add redis if the chatbot's existing async Redis client is not already supplied.
+# redis>=5,<7

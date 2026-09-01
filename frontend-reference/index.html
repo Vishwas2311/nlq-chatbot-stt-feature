@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EWS Conversation AI</title>
+
+    <!-- Bulma CSS Framework -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation Bar -->
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="#">
+                    <i class="fas fa-database mr-2"></i>
+                    <span class="has-text-weight-semibold">EWS Conversation AI</span>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <button class="button is-small is-ghost" id="healthCheckBtn" title="Health Check">
+                            <i class="fas fa-circle health-indicator"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Health Status Toast -->
+        <div class="health-toast is-hidden" id="healthStatus">
+            <button class="delete is-small" id="closeHealthStatus"></button>
+            <span id="healthStatusText"></span>
+        </div>
+
+        <!-- App Layout: Sidebar + Chat -->
+        <div class="app-layout">
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <div class="sidebar-user">
+                    <label class="sidebar-label">Current User</label>
+                    <div class="select is-small is-fullwidth">
+                        <select id="userSelect">
+                            <option value="user1">user1</option>
+                            <option value="demo_user">demo_user</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sidebar-actions">
+                    <button class="new-chat-btn" id="newChatBtn">
+                        <i class="fas fa-plus"></i>
+                        <span>New Chat</span>
+                    </button>
+                </div>
+                <div class="sidebar-sessions-header">Recent Sessions</div>
+                <div class="sidebar-sessions" id="sessionList">
+                    <div class="sessions-empty">No sessions yet</div>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <main class="chat-main">
+                <div class="chat-container">
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <div class="session-info">
+                            <span class="session-tag" id="sessionTag">New Chat</span>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages -->
+                    <div class="chat-messages" id="chatMessages">
+                        <div class="message-placeholder has-text-centered py-6">
+                            <i class="fas fa-comment-dots fa-3x has-text-grey-light mb-4"></i>
+                            <p class="has-text-grey">Start a conversation by typing a message below</p>
+                        </div>
+                    </div>
+
+                    <!-- Loading Indicator -->
+                    <div class="loading-indicator is-hidden" id="loadingIndicator">
+                        <div class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span>Processing...</span>
+                    </div>
+
+                    <!-- Chat Input -->
+                    <div class="chat-input">
+                        <div class="message-form">
+                            <textarea id="messageInput"
+                                      placeholder="Ask a question about your database..."
+                                      rows="1"></textarea>
+                            <!-- STT MERGE START: microphone control -->
+                            <button id="micBtn"
+                                    class="mic-button"
+                                    type="button"
+                                    title="Start voice input"
+                                    aria-label="Start voice input"
+                                    aria-pressed="false">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <!-- STT MERGE END: microphone control -->
+                            <button id="sendBtn" class="send-button">
+                                <i class="fas fa-arrow-up"></i>
+                            </button>
+                        </div>
+                        <div class="input-help">
+                            <span>Ctrl+Enter to send</span>
+                            <!-- STT MERGE: accessible live status -->
+                            <span id="voiceStatus" class="voice-status" aria-live="polite"></span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for SQL Query Display -->
+    <div class="modal" id="sqlModal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">
+                    <i class="fas fa-code mr-2"></i>
+                    SQL Query
+                </p>
+                <button class="delete modal-close" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="content">
+                    <pre id="sqlQueryDisplay" class="has-background-dark has-text-light p-4"></pre>
+                </div>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button modal-close">Close</button>
+                <button class="button is-info" id="copySqlBtn">
+                    <span class="icon"><i class="fas fa-copy"></i></span>
+                    <span>Copy</span>
+                </button>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Local demo connection only. Do not copy this token block to production. -->
+    <script>
+        window.EWS_API_BASE_URL = "http://127.0.0.1:8000";
+        window.EWS_LOCAL_DEMO_TOKEN = "REPLACE_WITH_LOCAL_TEST_BEARER_TOKEN";
+        window.EWS_STT_ONLY_MODE = true;
+    </script>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

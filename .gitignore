@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+!*.env.example
+*.pem
+*.key
+
+# Build and editor output
+build/
+dist/
+*.egg-info/
+.idea/
+.vscode/
+*.log
+
+# Operating systems
+.DS_Store
+Thumbs.db
